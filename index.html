@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fortnite Players Stats</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Public+Sans:wght@500;700&display=swap">
+<style>
+:root {
+  /* Layout: scrolling landing page — sticky nav, hero, four slanted sections, closing band, footer. Single bright game-style theme by choice. */
+  color-scheme: dark;
+  --night: #0A1445;
+  --blue: #2B7BFF;
+  --violet: #6A2BE0;
+  --pink: #FF4FA3;
+  --yellow: #FFE234;
+  --green: #3DDC84;
+  --white: #FFFFFF;
+  --display: 'Anton', Impact, 'Arial Narrow', sans-serif;
+  --body: 'Public Sans', Arial, sans-serif;
+  --ease: cubic-bezier(.2, .9, .2, 1);
+}
+* { box-sizing: border-box; margin: 0; }
+html { scroll-behavior: smooth; scroll-padding-top: 72px; }
+body { background: var(--night); color: var(--white); font-family: var(--body); font-weight: 500; overflow-x: hidden; }
+a { color: inherit; }
+
+/* ---------- nav ---------- */
+.nav { position: sticky; top: 0; z-index: 10; display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  padding: 12px clamp(16px, 4vw, 48px); background: rgba(10, 20, 69, .82); backdrop-filter: blur(10px);
+  border-bottom: 4px solid var(--yellow); }
+.logo { font-family: var(--display); font-size: clamp(18px, 2vw, 24px); text-transform: uppercase; text-decoration: none;
+  color: var(--yellow); transform: skewX(-8deg); white-space: nowrap; }
+.logo span { color: var(--white); }
+.links { display: flex; gap: clamp(6px, 1.4vw, 18px); padding: 0; list-style: none; flex-wrap: wrap; justify-content: flex-end; }
+.links a { font-family: var(--display); text-transform: uppercase; text-decoration: none; font-size: clamp(14px, 1.4vw, 18px);
+  letter-spacing: .04em; padding: 6px 12px; display: inline-block; transform: skewX(-10deg); transition: background .2s, color .2s; }
+.links a:hover, .links a.on { background: var(--yellow); color: var(--night); }
+.links a:focus-visible, .btn:focus-visible { outline: 3px solid var(--white); outline-offset: 3px; }
+
+/* ---------- sections ---------- */
+.band { position: relative; overflow: hidden; padding: clamp(72px, 12vw, 150px) clamp(20px, 6vw, 96px);
+  background: linear-gradient(155deg, var(--blue), var(--violet)); }
+.band.alt { background: linear-gradient(155deg, var(--violet), #B02BD6); }
+.band.deep { background: linear-gradient(155deg, #1438A8, var(--night)); }
+.band.sun { background: linear-gradient(155deg, var(--yellow), #FFB52E); color: var(--night); }
+.band::before { content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: repeating-linear-gradient(115deg, rgba(255,255,255,.06) 0 46px, transparent 46px 92px); }
+/* slanted edge between sections */
+.band + .band { clip-path: polygon(0 5vw, 100% 0, 100% 100%, 0 100%); margin-top: -5vw; padding-top: calc(clamp(72px, 12vw, 150px) + 5vw); }
+
+.hero { min-height: calc(100vh - 60px); display: flex; align-items: center; }
+.inner { position: relative; z-index: 1; width: 100%; max-width: 1240px; margin: 0 auto;
+  display: grid; grid-template-columns: 1.15fr .85fr; gap: clamp(24px, 5vw, 72px); align-items: center; }
+.inner.flip { grid-template-columns: .85fr 1.15fr; }
+.inner.flip .art { order: -1; }
+.inner.solo { grid-template-columns: 1fr; }
+.copy { display: flex; flex-direction: column; align-items: flex-start; gap: clamp(16px, 2.4vw, 28px); }
+.art svg { display: block; width: 100%; height: auto; }
+
+.tag { font-family: var(--display); font-size: clamp(15px, 1.7vw, 22px); letter-spacing: .08em; text-transform: uppercase;
+  background: var(--yellow); color: var(--night); padding: .35em 1em; transform: skewX(-10deg); box-shadow: 5px 5px 0 var(--night); }
+.sun .tag { background: var(--night); color: var(--yellow); box-shadow: 5px 5px 0 rgba(10,20,69,.25); }
+h1, h2 { font-family: var(--display); font-weight: 400; text-transform: uppercase; line-height: 1; text-wrap: balance;
+  color: var(--yellow); text-shadow: 0 .07em 0 var(--night); transform: skewX(-5deg) rotate(-1.5deg); transform-origin: left center; }
+h1 { font-size: clamp(52px, 9vw, 136px); }
+h1 span { color: var(--white); }
+h2 { font-size: clamp(40px, 6.4vw, 96px); }
+.sun h2 { color: var(--night); text-shadow: 0 .07em 0 rgba(255,255,255,.55); }
+.say { font-size: clamp(18px, 2.1vw, 28px); line-height: 1.4; max-width: 26em; }
+.by { font-weight: 700; font-size: clamp(14px, 1.5vw, 18px); letter-spacing: .06em; text-transform: uppercase; }
+
+.btn { font-family: var(--display); text-transform: uppercase; text-decoration: none; font-size: clamp(18px, 2vw, 24px);
+  background: var(--yellow); color: var(--night); border: 4px solid var(--night); box-shadow: 6px 6px 0 var(--night);
+  padding: .45em 1.2em; display: inline-block; transform: skewX(-10deg); transition: translate .15s, box-shadow .15s; }
+.btn:hover { translate: -2px -2px; box-shadow: 8px 8px 0 var(--night); }
+.btn:active { translate: 3px 3px; box-shadow: 3px 3px 0 var(--night); }
+
+.chips { display: flex; flex-wrap: wrap; gap: 14px; padding: 0; list-style: none; }
+.chips li { font-family: var(--display); text-transform: uppercase; font-size: clamp(18px, 2.3vw, 30px);
+  background: var(--white); color: var(--night); padding: .3em .8em; border: 4px solid var(--night); box-shadow: 6px 6px 0 var(--night); transform: rotate(-2deg); }
+.chips li:nth-child(even) { transform: rotate(1.5deg); background: var(--yellow); }
+
+.big { font-family: var(--display); font-size: clamp(96px, 16vw, 240px); line-height: .9; color: var(--white);
+  text-shadow: 0 .06em 0 var(--night); transform: skewX(-5deg) rotate(-2deg); }
+.dots { display: grid; grid-template-columns: repeat(12, 1fr); gap: clamp(5px, .8vw, 10px); max-width: 440px; margin-top: 20px; }
+.dots i { aspect-ratio: 1; border-radius: 50%; background: var(--yellow); border: 2px solid var(--night); }
+.dots i.low { background: var(--pink); }
+
+.cards { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(18px, 3vw, 36px); width: 100%; }
+.card { background: var(--white); color: var(--night); border: 4px solid var(--night); box-shadow: 8px 8px 0 var(--night);
+  padding: clamp(18px, 2.6vw, 34px); display: flex; flex-direction: column; gap: 12px; transform: rotate(-1deg); transition: transform .25s var(--ease); }
+.card:nth-child(2) { transform: rotate(1deg); }
+.card:hover { transform: rotate(0) translateY(-6px); }
+.card svg { width: clamp(60px, 7vw, 96px); height: auto; }
+.card h3 { font-family: var(--display); font-weight: 400; text-transform: uppercase; font-size: clamp(24px, 2.8vw, 40px); line-height: 1.05; }
+.card p { font-size: clamp(16px, 1.7vw, 22px); line-height: 1.4; }
+
+footer { padding: 28px clamp(20px, 6vw, 96px); display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px;
+  font-size: 15px; color: #B9C3F0; border-top: 4px solid var(--yellow); }
+
+/* ---------- always-on motion ---------- */
+.float { animation: float 5s ease-in-out infinite alternate; transform-box: fill-box; }
+.float.slow { animation-duration: 8s; }
+@keyframes float { from { transform: translateY(-8px); } to { transform: translateY(10px); } }
+.spin { animation: spin 40s linear infinite; transform-box: fill-box; transform-origin: center; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.hero [data-a] { animation: fromLeft .8s var(--ease) both; animation-delay: calc(var(--d, 0) * 140ms + 150ms); }
+.hero [data-a="pop"] { animation-name: pop; }
+
+/* ---------- scroll reveals (only armed by JS for content below the fold) ---------- */
+.armed [data-a] { opacity: 0; }
+.armed [data-a="left"] { translate: -120px 0; }
+.armed [data-a="right"], .armed [data-a=""] { translate: 120px 0; }
+.armed [data-a="up"] { translate: 0 80px; }
+.armed [data-a="pop"] { scale: .5; }
+.armed .bar { transform: scaleY(0); }
+.armed .dots i { opacity: 0; scale: .3; }
+.armed .fade-out { opacity: 1; }
+
+.shown [data-a] { opacity: 1; translate: 0 0; scale: 1;
+  transition: opacity .7s var(--ease), translate .8s var(--ease), scale .7s var(--ease);
+  transition-delay: calc(var(--d, 0) * 130ms); }
+.bar, .fade-out { transform-box: fill-box; transform-origin: 50% 100%; }
+.shown .bar { transform: scaleY(1); transition: transform .8s var(--ease); transition-delay: calc(var(--d) * 150ms + 300ms); }
+.shown .dots i { opacity: 1; scale: 1; transition: opacity .3s, scale .35s var(--ease); transition-delay: calc(var(--n) * 12ms + 400ms); }
+.shown .fade-out { animation: leave 1.4s ease-in-out 1s both; }
+@keyframes leave { from { opacity: 1; transform: translateX(0); } to { opacity: .28; transform: translateX(26px); } }
+@keyframes fromLeft { from { opacity: 0; translate: -120px 0; } to { opacity: 1; translate: 0 0; } }
+@keyframes pop { 0% { opacity: 0; scale: .4; } 70% { opacity: 1; scale: 1.08; } 100% { opacity: 1; scale: 1; } }
+
+@media (max-width: 800px) {
+  .inner, .inner.flip { grid-template-columns: 1fr; }
+  .inner.flip .art { order: 0; }
+  .art { max-width: 420px; }
+  .cards { grid-template-columns: 1fr; }
+  .links { display: none; }
+  .hero { min-height: auto; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .float, .spin, .hero [data-a], .shown .fade-out { animation: none; }
+  .armed [data-a], .armed .bar, .armed .dots i { opacity: 1; translate: 0 0; scale: 1; transform: none; }
+  .shown [data-a], .shown .bar, .shown .dots i { transition: none; }
+}
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <a class="logo" href="#top">Fortnite <span>Players Stats</span></a>
+  <ul class="links">
+    <li><a href="#problem">Problem</a></li>
+    <li><a href="#clue">Clue</a></li>
+    <li><a href="#project">Project</a></li>
+    <li><a href="#impact">Impact</a></li>
+  </ul>
+</header>
+
+<main>
+
+<!-- hero -->
+<section class="band hero" id="top">
+  <div class="inner">
+    <div class="copy">
+      <p class="tag" data-a style="--d:0">A data project</p>
+      <h1 data-a style="--d:1">Fortnite <span>Players Stats</span></h1>
+      <p class="say" data-a style="--d:2">Can a game’s numbers tell us when a player is about to leave?</p>
+      <a class="btn" href="#problem" data-a style="--d:3">Drop in ▼</a>
+    </div>
+    <div class="art" data-a="pop" style="--d:2">
+      <svg viewBox="0 0 400 400" role="img" aria-label="An island map inside a shrinking circle, with a supply crate floating down">
+        <circle cx="200" cy="210" r="170" fill="#0A1445" opacity=".35"/>
+        <circle class="spin" cx="200" cy="210" r="150" fill="none" stroke="#FFFFFF" stroke-width="6" stroke-dasharray="22 16"/>
+        <path d="M110 230 Q95 170 150 150 Q190 110 245 140 Q305 150 300 215 Q310 280 240 295 Q170 320 130 280 Z" fill="#3DDC84" stroke="#0A1445" stroke-width="6"/>
+        <path d="M150 215 Q190 190 215 225 T275 220" fill="none" stroke="#0A1445" stroke-width="5" stroke-dasharray="4 12" stroke-linecap="round"/>
+        <circle cx="275" cy="220" r="13" fill="#FF4FA3" stroke="#0A1445" stroke-width="5"/>
+        <g class="float">
+          <ellipse cx="120" cy="70" rx="42" ry="48" fill="#FFE234" stroke="#0A1445" stroke-width="6"/>
+          <path d="M96 110 L108 142 M144 110 L132 142" stroke="#0A1445" stroke-width="4"/>
+          <rect x="98" y="142" width="44" height="36" fill="#2B7BFF" stroke="#0A1445" stroke-width="6"/>
+          <path d="M98 160 H142 M120 142 V178" stroke="#0A1445" stroke-width="4"/>
+        </g>
+        <g class="float slow" fill="#FFFFFF" opacity=".9">
+          <ellipse cx="320" cy="80" rx="46" ry="16"/><ellipse cx="296" cy="70" rx="24" ry="14"/>
+          <ellipse cx="70" cy="330" rx="40" ry="13"/>
+        </g>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- problem -->
+<section class="band alt reveal" id="problem">
+  <div class="inner">
+    <div class="copy">
+      <p class="tag" data-a="left" style="--d:0">01 · The problem</p>
+      <h2 data-a="left" style="--d:1">Players quit quietly.</h2>
+      <p class="say" data-a="left" style="--d:2">Every day, people open the game for their last match. The company notices too late.</p>
+    </div>
+    <div class="art" data-a="right" style="--d:2">
+      <svg viewBox="0 0 420 300" role="img" aria-label="A squad of four players. The last one fades away">
+        <ellipse cx="210" cy="262" rx="190" ry="18" fill="#0A1445" opacity=".35"/>
+        <g stroke="#0A1445" stroke-width="6">
+          <g fill="#FFE234"><circle cx="70" cy="110" r="30"/><path d="M30 255 V190 Q30 150 70 150 Q110 150 110 190 V255 Z"/></g>
+          <g fill="#FFFFFF"><circle cx="165" cy="95" r="30"/><path d="M125 255 V175 Q125 135 165 135 Q205 135 205 175 V255 Z"/></g>
+          <g fill="#3DDC84"><circle cx="260" cy="110" r="30"/><path d="M220 255 V190 Q220 150 260 150 Q300 150 300 190 V255 Z"/></g>
+          <g class="fade-out" fill="#FF4FA3" stroke-dasharray="12 8"><circle cx="350" cy="120" r="28"/><path d="M314 255 V198 Q314 160 350 160 Q386 160 386 198 V255 Z"/></g>
+        </g>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- clue -->
+<section class="band reveal" id="clue">
+  <div class="inner flip">
+    <div class="art" data-a="left" style="--d:1">
+      <svg viewBox="0 0 420 300" role="img" aria-label="A bar chart where each week is lower than the one before">
+        <rect x="20" y="20" width="380" height="260" fill="#0A1445" opacity=".35"/>
+        <g stroke="#0A1445" stroke-width="6">
+          <rect class="bar" style="--d:0" x="50" y="50" width="52" height="200" fill="#FFE234"/>
+          <rect class="bar" style="--d:1" x="122" y="85" width="52" height="165" fill="#FFE234"/>
+          <rect class="bar" style="--d:2" x="194" y="130" width="52" height="120" fill="#FFE234"/>
+          <rect class="bar" style="--d:3" x="266" y="180" width="52" height="70" fill="#FFFFFF"/>
+          <rect class="bar" style="--d:4" x="338" y="220" width="52" height="30" fill="#FF4FA3"/>
+        </g>
+        <path d="M40 250 H400" stroke="#FFFFFF" stroke-width="6" stroke-linecap="round"/>
+        <path d="M150 40 L330 150 M330 150 L296 144 M330 150 L318 118" fill="none" stroke="#FFFFFF" stroke-width="8" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div class="copy">
+      <p class="tag" data-a="right" style="--d:0">02 · The clue</p>
+      <h2 data-a="right" style="--d:1">Every match leaves numbers.</h2>
+      <ul class="chips" data-a="right" style="--d:2"><li>Minutes played</li><li>Matches</li><li>Wins</li></ul>
+      <p class="say" data-a="right" style="--d:3">When they start to drop, a player is losing interest.</p>
+    </div>
+  </div>
+</section>
+
+<!-- project -->
+<section class="band deep reveal" id="project">
+  <div class="inner">
+    <div class="copy">
+      <p class="tag" data-a="left" style="--d:0">03 · The project</p>
+      <h2 data-a="left" style="--d:1">Real players. Three questions.</h2>
+      <ul class="chips" data-a="up" style="--d:2"><li>Who plays little?</li><li>Who plays very well?</li><li>Who plays alike?</li></ul>
+    </div>
+    <div data-a="pop" style="--d:2">
+      <p class="big">1,435</p>
+      <p class="by">players · public stats</p>
+      <div class="dots" id="dots" aria-hidden="true"></div>
+    </div>
+  </div>
+</section>
+
+<!-- impact -->
+<section class="band alt reveal" id="impact">
+  <div class="inner solo">
+    <div class="copy">
+      <p class="tag" data-a="left" style="--d:0">04 · Why it matters</p>
+      <h2 data-a="left" style="--d:1">A company can act early.</h2>
+      <div class="cards">
+        <div class="card" data-a="up" style="--d:2">
+          <svg viewBox="0 0 96 96" aria-hidden="true"><g stroke="#0A1445" stroke-width="6" stroke-linejoin="round"><rect x="14" y="40" width="68" height="44" fill="#FF4FA3"/><rect x="8" y="26" width="80" height="18" fill="#FFE234"/><path d="M48 26 V84"/><path d="M48 26 Q28 2 22 16 Q20 26 48 26 Q76 26 74 16 Q68 2 48 26 Z" fill="#FFE234"/></g></svg>
+          <h3>Bring players back</h3>
+          <p>New content and special events for the ones who play less.</p>
+        </div>
+        <div class="card" data-a="up" style="--d:3">
+          <svg viewBox="0 0 96 96" aria-hidden="true"><g stroke="#0A1445" stroke-width="6" stroke-linejoin="round"><path d="M26 12 H70 V36 Q70 58 48 58 Q26 58 26 36 Z" fill="#FFE234"/><path d="M26 20 H10 Q10 42 28 42 M70 20 H86 Q86 42 68 42" fill="none"/><path d="M48 58 V72"/><rect x="28" y="72" width="40" height="14" fill="#2B7BFF"/></g></svg>
+          <h3>Reward the best</h3>
+          <p>Invite the top players to competitions.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- takeaway -->
+<section class="band sun reveal" id="takeaway">
+  <div class="inner solo">
+    <div class="copy">
+      <p class="tag" data-a="left" style="--d:0">The takeaway</p>
+      <h2 data-a="left" style="--d:1">The numbers are already there. Read them early.</h2>
+      <a class="btn" href="#top" data-a="up" style="--d:2">Back to top ▲</a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <span>Matias Moya · Data Science · Duoc UC</span>
+  <span>Integrated English Practice · 2026</span>
+</footer>
+
+<script>
+(function () {
+  // dots for "1,435 players"
+  var dots = document.getElementById('dots');
+  for (var n = 0; n < 72; n++) {
+    var d = document.createElement('i');
+    d.style.setProperty('--n', n);
+    if (n % 4 === 3) d.className = 'low';
+    dots.appendChild(d);
+  }
+
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var sections = [].slice.call(document.querySelectorAll('.reveal'));
+
+  // Arm the slide-in only for sections not yet on screen, so nothing is hidden at rest.
+  if ('IntersectionObserver' in window && !reduce) {
+    sections.forEach(function (s) {
+      if (s.getBoundingClientRect().top > window.innerHeight * 0.85) s.classList.add('armed');
+    });
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) {
+          e.target.classList.add('shown');
+          e.target.classList.remove('armed');
+          io.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.2 });
+    sections.forEach(function (s) {
+      if (s.classList.contains('armed')) io.observe(s); else s.classList.add('shown');
+    });
+  }
+
+  // highlight the nav link of the section in view
+  var links = [].slice.call(document.querySelectorAll('.links a'));
+  if ('IntersectionObserver' in window) {
+    var spy = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (!e.isIntersecting) return;
+        links.forEach(function (a) { a.classList.toggle('on', a.getAttribute('href') === '#' + e.target.id); });
+      });
+    }, { rootMargin: '-45% 0px -50% 0px' });
+    document.querySelectorAll('main section[id]').forEach(function (s) { spy.observe(s); });
+  }
+})();
+</script>
+</body>
+</html>
